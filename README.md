@@ -40,7 +40,7 @@ This component is a list of messages that will show at the top of the form by de
 
 In the default form, you can see those in the image below:
 
-![Predefined messages](https://raw.githubusercontent.com/mdLn1/ReactChatForm/master/public/images/message_types.png "predefined messages img")
+![Predefined messages](https://raw.githubusercontent.com/mdLn1/ReactChatForm/master/public/images/predefined_messages.png "predefined messages img")
 
 ## steps - component
 
