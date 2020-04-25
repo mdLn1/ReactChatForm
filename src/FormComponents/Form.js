@@ -62,14 +62,22 @@ class ChatForm extends Component {
         messages.push(
           createMessage("OK!", "correct-input left-no-bottom-radius")
         );
-        messages.push(
-          createMessage("Going back to where you left off", "left-no-radius")
-        );
-        messages.push({
-          text: steps[lastStepDone].inputPlaceholder,
-          spanType: "left-no-top-radius",
-          side: "left",
-        });
+        if (typeof steps[lastStepDone] !== "undefined") {
+          messages.push(
+            createMessage("Going back to where you left off", "left-no-radius")
+          );
+          messages.push({
+            text: steps[lastStepDone].inputPlaceholder,
+            spanType: "left-no-top-radius",
+            side: "left",
+          });
+        } else {
+          messages.push({
+            text: "Thanks!",
+            spanType: "correct-input left-no-top-radius",
+            side: "left",
+          });
+        }
         this.setState((prevState) => ({
           fields: { ...prevState.fields, [currentField]: "" },
           currentStep: lastStepDone,
@@ -137,6 +145,13 @@ class ChatForm extends Component {
               lastStepDone: lastStepDone,
               editing: false,
             });
+          } else {
+            this.setState({
+              messages: messages,
+              currentStep: lastStepDone,
+              lastStepDone: lastStepDone,
+              editing: false,
+            });
           }
         } else if (currentStep < maxSteps) {
           lastStepDone = currentStep + 1;
@@ -180,7 +195,8 @@ class ChatForm extends Component {
   updateForm = () => {
     // clearing the input field
     try {
-      document.getElementById("input-element").value = "";
+      if(document.getElementById("input-element"))
+        document.getElementById("input-element").value = "";
     } catch (error) {
       console.log(error);
     }
