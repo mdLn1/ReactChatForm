@@ -4,7 +4,7 @@
 
 A project that shows a sample of how to built chat-like forms in react
 
-![Example form](https://raw.githubusercontent.com/mdLn1/ReactChatForm/master/public/images/form_example.png "React Chat form example")
+![Example form](https://raw.githubusercontent.com/mdLn1/ReactChatForm/master/public/images/form_example.PNG "React Chat form example")
 
 **If you want to try it, all you need to do is to clone the repository and run `npm install` inside the root directory of the repository.**
 
@@ -56,9 +56,11 @@ It has a title, the chat box, the input container, progress bar and buttons for 
 
 Inside `src/App.js` you can see how this component is used and all the properties that can be passed.
 
-**title** - type string, located at the top of the container
-**hideProgress** - type boolean, whether you want the progress bar to be shown or not; it records how many steps have been done;
-**steps** - type Array, a number of steps for the form, by default using the ones from `src/FormComponents/steps.js`;
-**fields** - type Object, uses all the `fieldName` property from steps Array, so that they can all be updated within state;
-**firstMessages** - type Array, shows the first messages in the form, such as introduction messages; by default using the ones from `src/FormComponents/predefinedMessages.js`;
-**getData** - type function, the function passed here will receive an object that is the sam type as **fields** containing all the data received after completing the form
+The properties are listed below:
+
+* **title** - type string, located at the top of the container
+* **hideProgress** - type boolean, whether you want the progress bar to be shown or not; it records how many steps have been done;
+* **steps** - type Array, a number of steps for the form, by default using the ones from `src/FormComponents/steps.js`;
+* **fields** - type Object, uses all the `fieldName` property from steps Array, so that they can all be updated within state;
+* **firstMessages** - type Array, shows the first messages in the form, such as introduction messages; by default using the ones from `src/FormComponents/predefinedMessages.js`;
+* **getData** - type function, the function passed here will receive an object that is the sam type as **fields** containing all the data received after completing the form
