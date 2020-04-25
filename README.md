@@ -2,6 +2,8 @@
 
 ![React Chat form](https://raw.githubusercontent.com/mdLn1/ReactChatForm/master/public/images/bck_react_chat.png "React Chat form background image")
 
+## Click on the link to try it out [CLICK ME!](https://react-chat-form.herokuapp.com/)
+
 A project that shows a sample of how to built chat-like forms in react
 
 ![Example form](https://raw.githubusercontent.com/mdLn1/ReactChatForm/master/public/images/form_example.PNG "React Chat form example")
