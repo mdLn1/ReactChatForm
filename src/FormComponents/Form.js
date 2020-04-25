@@ -39,7 +39,10 @@ class ChatForm extends Component {
   }
 
   handleInputChange = (e) => {
-    this.setState({ fields: { [e.target.name]: e.target.value } });
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
+      fields: { ...prevState.fields, [name]: value },
+    }));
   };
 
   handleFormSubmission = (e) => {
@@ -51,6 +54,7 @@ class ChatForm extends Component {
     }
     // pressing skip button
     if (e.target.name === "skip") {
+      const currentField = steps[currentStep].fieldName;
       if (editing) {
         messages.push(
           createMessage("I am leaving this one empty", "", "right")
@@ -67,7 +71,7 @@ class ChatForm extends Component {
           side: "left",
         });
         this.setState((prevState) => ({
-          fields: { ...prevState.fields, [steps[currentStep].fieldName]: "" },
+          fields: { ...prevState.fields, [currentField]: "" },
           currentStep: lastStepDone,
           lastStepDone: lastStepDone,
           messages: messages,
@@ -86,7 +90,7 @@ class ChatForm extends Component {
           )
         );
         this.setState((prevState) => ({
-          fields: { ...prevState.fields, [steps[currentStep].fieldName]: "" },
+          fields: { ...prevState.fields, [currentField]: "" },
           currentStep: currentStep,
           messages: messages,
           lastStepDone: currentStep,
@@ -221,13 +225,13 @@ class ChatForm extends Component {
     if (!editing) {
       lastStepDone = currentStep;
     }
-    this.setState({
+    this.setState((prevState) => ({
       messages: messages,
       currentStep: requiredStep,
-      fields: { [fieldName]: "" },
+      fields: { ...prevState.fields, [fieldName]: "" },
       editing: true,
       lastStepDone: lastStepDone,
-    });
+    }));
     this.updateForm();
   };
 
@@ -236,7 +240,7 @@ class ChatForm extends Component {
   };
 
   render() {
-    const { steps, title } = this.props;
+    const { steps, title, hideProgress } = this.props;
     const {
       currentStep,
       maxSteps,
@@ -258,55 +262,62 @@ class ChatForm extends Component {
         <div className="flex-container">
           {currentStep !== maxSteps ? (
             <Fragment>
-            <div className="input-container">
-              <input
-                name={fieldName}
-                type={inputType}
-                id="input-element"
-                placeholder={inputPlaceholder}
-                onChange={this.handleInputChange}
-              />
-              {optional && (
-                <button
-                  className="bcg-success"
-                  onClick={this.handleFormSubmission}
-                  name="skip"
+              <div className="input-container">
+                <input
+                  name={fieldName}
+                  type={inputType}
+                  id="input-element"
+                  placeholder={inputPlaceholder}
+                  onChange={this.handleInputChange}
+                />
+                {optional && (
+                  <button
+                    className="bcg-success"
+                    onClick={this.handleFormSubmission}
+                    name="skip"
+                  >
+                    Skip
+                  </button>
+                )}
+                {fields[fieldName] ? (
+                  <button
+                    id="sendButton"
+                    onClick={this.handleFormSubmission}
+                    name="send"
+                  >
+                    Send
+                  </button>
+                ) : (
+                  <button
+                    style={{
+                      cursor: "not-allowed",
+                    }}
+                    id="sendButton"
+                    className="bcg-disabled"
+                  >
+                    Send
+                  </button>
+                )}
+              </div>
+              {!hideProgress && (
+                <div
+                  className="flex-container"
+                  style={{ flexDirection: "row" }}
                 >
-                  Skip
-                </button>
+                  <span
+                    style={{ display: "inline-flex", marginRight: ".5rem" }}
+                  >
+                    Progress:
+                  </span>
+                  <span id="progress-bar" style={{ display: "inline-flex" }}>
+                    <span
+                      id="progress"
+                      style={{ width: `${(currentStep * 100) / maxSteps}%` }}
+                    ></span>
+                  </span>
+                </div>
               )}
-              {fields[fieldName] ? (
-                <button
-                  id="sendButton"
-                  onClick={this.handleFormSubmission}
-                  name="send"
-                >
-                  Send
-                </button>
-              ) : (
-                <button
-                  style={{
-                    cursor: "not-allowed",
-                  }}
-                  id="sendButton"
-                  className="bcg-disabled"
-                >
-                  Send
-                </button>
-              )}
-            </div>
-            <div className="flex-container" style={{ flexDirection: "row" }}>
-          <span style={{ display: "inline-flex", marginRight: ".5rem" }}>
-            Progress:
-          </span>
-          <span id="progress-bar" style={{ display: "inline-flex" }}>
-            <span
-              id="progress"
-              style={{ width: `${(currentStep * 100) / maxSteps}%` }}
-            ></span>
-          </span>
-        </div>
-        </Fragment>
+            </Fragment>
           ) : (
             <Fragment>
               <h3
@@ -324,7 +335,7 @@ class ChatForm extends Component {
             </Fragment>
           )}
         </div>
-        
+
         {lastStepDone > 0 && (
           <div className="flex-container" id="twin-buttons-container">
             <button className="bcg-primary left-twin dropdown">
@@ -370,6 +381,7 @@ ChatForm.defaultProps = {
   fields: [{ defaultTextValue: "" }],
   title: "Default title",
   getData: (data) => console.log(data),
+  hideProgress: false,
 };
 
 ChatForm.propTypes = {
@@ -378,6 +390,7 @@ ChatForm.propTypes = {
   fields: PropTypes.object,
   title: PropTypes.string,
   getData: PropTypes.func,
+  hideProgress: PropTypes.bool,
 };
 
 export default ChatForm;

@@ -84,6 +84,12 @@ span.right-no-bottom-radius {
   text-align: left;
 }
 
+.right-message {
+  text-align: right;
+  padding-left: 4rem;
+}
+
+
 .left-message {
   color: black;
   text-align: left;
@@ -93,11 +99,6 @@ span.right-no-bottom-radius {
 .left-message span {
   background-color: #eee;
   color: black;
-}
-
-.right-message {
-  text-align: right;
-  padding-left: 4rem;
 }
 
 span.error-input {
